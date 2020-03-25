@@ -26,6 +26,7 @@ export default {
         .then(res => {
           //   console.log(res.data.data);
           this.initAppData = res.data.data;
+          console.log(this.initAppData)
           //   this.$store.dispatch("initAppData", res.data.data);
         })
         .catch(err => {

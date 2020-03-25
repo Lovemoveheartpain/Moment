@@ -41,6 +41,7 @@ export default {
   methods: {
     change() {
       this.isShow = !this.isShow;
+      this.$emit('changeShow')
     },
     submit() {
       if (!this.phone) {
@@ -60,6 +61,7 @@ export default {
   position: fixed;
   bottom: 70px;
   right: 15px;
+  z-index: 10;
 }
 .message_btn > span {
   font-size: 25px;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(item, index) in list" :key="index" class="oto_content">
+    <div v-for="(item, index) in list" :key="index" class="oto_content" @click="change">
       <img :src="item.teacher_avatar" alt />
       <div class="oc_item">
         <p>
@@ -10,13 +10,29 @@
         <p>{{item.introduction}}</p>
       </div>
     </div>
+    <ModalVue :isShow="isShow" @changeShow='change' />
   </div>
 </template>
 
 <script>
+import ModalVue from "../components/home/Modal.vue";
+
 export default {
+  components: {
+    ModalVue
+  },
   props: {
     list: Array
+  },
+  data() {
+    return {
+      isShow: false
+    };
+  },
+  methods: {
+    change() {
+      this.isShow = !this.isShow;
+    }
   }
 };
 </script>

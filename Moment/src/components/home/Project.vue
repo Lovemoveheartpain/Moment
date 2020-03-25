@@ -1,10 +1,10 @@
 <template>
   <div class="project_container">
     <p class="body_title">{{title.name}}</p>
-    <ItemVue v-if="title.name == '名师阵容'" :list="list" />
-    <ItemTwoVue v-if="title.name == '精品课程'" :list="list" />
     <ItemTwoVue v-if="title.name == '推荐课程'" :list="list" />
-    <ItemVue v-if="title.name == '明星讲师'" :list="list" />
+    <ItemVue v-if="title.name == '讲师推荐'" :list="list" />
+    <ItemTwoVue v-if="title.name == '会员课程推荐'" :list="list" />
+    <ItemVue v-if="title.name == '约课讲师'" :list="list" />
   </div>
 </template>
 

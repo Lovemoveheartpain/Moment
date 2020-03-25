@@ -1,16 +1,27 @@
 <template>
   <div id="app">
-    <router-view />
+    <keep-alive>
+      <router-view v-show="isShow" />
+    </keep-alive>
     <router-view name="bar" />
-    <MessageVue />
+    <MessageVue @changeShow='change' />
   </div>
 </template>
 <script>
-import MessageVue from "./components/home/Message.vue";
-
+import MessageVue from "./common/Message.vue";
 export default {
   components: {
     MessageVue
+  },
+  data() {
+    return {
+      isShow: true
+    };
+  },
+  methods: {
+    change() {
+      this.isShow = !this.isShow;
+    }
   }
 };
 </script>

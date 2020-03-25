@@ -11,33 +11,38 @@ const routes = [
   {
     path: '/index',
     name: 'index',
-    components:{
-      default:() => import('../views/Home.vue'),
-      bar:() => import('../common/NavigationBar.vue')
+    components: {
+      default: () => import('../views/Home.vue'),
+      bar: () => import('../common/NavigationBar.vue')
     }
   },
   {
     path: '/course',
     name: 'course',
-    components:{
-      default:() => import('../views/Course.vue'),
-      bar:() => import('../common/NavigationBar.vue')
+    components: {
+      default: () => import('../views/Course.vue'),
+      bar: () => import('../common/NavigationBar.vue')
     }
+  },
+  {
+    path: '/course_details/:id',
+    name: 'course_details',
+    component: () => import('../components/course/CourseDetails.vue'),
   },
   {
     path: '/record',
     name: 'record',
-    components:{
-      default:() => import('../views/Record.vue'),
-      bar:() => import('../common/NavigationBar.vue')
+    components: {
+      default: () => import('../views/Record.vue'),
+      bar: () => import('../common/NavigationBar.vue')
     }
   },
   {
     path: '/practice',
     name: 'practice',
-    components:{
-      default:() => import('../views/Practice.vue'),
-      bar:() => import('../common/NavigationBar.vue')
+    components: {
+      default: () => import('../views/Practice.vue'),
+      bar: () => import('../common/NavigationBar.vue')
     }
   },
   {

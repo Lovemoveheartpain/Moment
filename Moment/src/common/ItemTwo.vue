@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(item, index) in list" :key="index" class="ii_content">
+    <div v-for="(item, index) in list" :key="index" class="ii_content" @click="toDetails(item)" >
       <p class="title_content">{{item.title}}</p>
       <div class="total_periods">共{{item.total_periods}}课时</div>
       <div class="teacher_item">
@@ -24,10 +24,15 @@ export default {
     list: Array
   },
   mounted() {
-    this.list.forEach(element => {
-      console.log(element);
-    });
-  }
+    // this.list.forEach(element => {
+    //   console.log(element);
+    // });
+  },
+  methods: {
+    toDetails(item){
+      this.$router.push('/course_details/'+item.id);
+    }
+  },
 };
 </script>
 

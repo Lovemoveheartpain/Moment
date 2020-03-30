@@ -1,5 +1,5 @@
 <template>
-  <div class="course_details" v-if="list !== ''">
+  <div class="course_details">
     <NavigationTopVue>
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
       <h3 v-show="isTop" slot="middle">课程详情</h3>
@@ -17,14 +17,14 @@
           :color="star?'orange':''"
           @click="changestar"
         />
-        <p class="cd_top_price">￥{{list.info.price}}</p>
+        <p class="cd_top_price">{{list.info.price == 0?"免费":'￥'+list.info.price}}</p>
         <p class="cd_top_bottom">共{{list.info.total_periods}}课时 | {{list.info.sales_num}}人已报名</p>
       </div>
       <div class="cd_cro">
         <p class="cd_title">教学团队</p>
-        <div class="teacher_item">
-          <img class="teacher_img" :src="list.teachers[0].avatar" alt />
-          <p class="teacher_name">{{list.teachers[0].teacher_name}}</p>
+        <div class="teacher_item" v-for="(item,index) in list.teachers" :key="index">
+          <img class="teacher_img" :src="item.avatar" alt />
+          <p class="teacher_name">{{item.teacher_name}}</p>
         </div>
       </div>
       <div v-for="(item, index) in items" :key="index" class="cd_cro">
@@ -70,7 +70,10 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      list: "",
+      list: {
+        info: {},
+        teachers: []
+      },
       isShow: false,
       isTop: true,
       items: ["课程介绍", "课程大纲", "课程评价"],
@@ -90,12 +93,13 @@ export default {
       }
     },
     getDetails() {
+      this.id = this.$route.params.id;
       bus
         .courseInfo(this.id)
         .then(res => {
           if (res.data.msg == "操作成功") {
             this.list = res.data.data;
-            console.log(res.data.data);
+            // console.log(res.data.data);
           }
         })
         .catch(err => {
@@ -111,10 +115,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getDetails();
-  },
   activated() {
+    this.getDetails();
     window.addEventListener("scroll", this.headerScroll);
   },
   deactivated() {

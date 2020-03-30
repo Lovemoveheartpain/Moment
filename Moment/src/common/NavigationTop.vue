@@ -23,6 +23,7 @@ export default {};
   display: inline-flex;
   position: fixed;
   top: 0px;
+  z-index: 120;
 }
 .navigation_left {
   width: 10%;

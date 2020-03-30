@@ -51,6 +51,11 @@ const routes = [
     component: () => import('../views/Mine.vue')
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/Search.vue')
+  },
+  {
     path: '/oto',
     name: 'oto',
     component: () => import('../views/Oto.vue')
@@ -70,7 +75,14 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 export default router

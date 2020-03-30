@@ -17,9 +17,6 @@ const getBanner = () => {
 const appIndex = () => {
     return headquarter(init.path.GET, init.url.appIndex, '')
 }
-const system = () => {
-    return headquarter(init.path.GET, init.url.system, '')
-}
 const courseClassify = () => {
     return headquarter(init.path.GET, init.url.courseClassify, '')
 }
@@ -37,7 +34,6 @@ export const bus = {
     login,
     getBanner,
     appIndex,
-    system,
     courseClassify,
     courseBasis,
     courseInfo

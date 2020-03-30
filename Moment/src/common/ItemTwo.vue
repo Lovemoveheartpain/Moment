@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div v-for="(item, index) in list" :key="index" class="ii_content" @click="toDetails(item)" >
+    <div v-for="(item, index) in list" :key="index" class="ii_content" @click="toDetails(item)">
       <p class="title_content">{{item.title}}</p>
-      <div class="total_periods">共{{item.total_periods}}课时</div>
+      <div class="total_periods">
+        <slot name="time"></slot>
+        共{{item.total_periods}}课时
+      </div>
       <div class="teacher_item">
         <div>
           <img :src="item.teachers_list[0].teacher_avatar" alt />
@@ -29,10 +32,10 @@ export default {
     // });
   },
   methods: {
-    toDetails(item){
-      this.$router.push('/course_details/'+item.id);
+    toDetails(item) {
+      this.$router.push("/course_details/" + item.id);
     }
-  },
+  }
 };
 </script>
 
@@ -59,12 +62,12 @@ export default {
   align-items: center;
   justify-content: space-around;
 }
-.teacher_item > div>img {
+.teacher_item > div > img {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
-.teacher_item > div>span {
+.teacher_item > div > span {
   font-size: 12px;
   color: lightgray;
 }
@@ -76,6 +79,7 @@ export default {
   line-height: 22.5px;
 }
 .total_periods {
+  /* background: red; */
   font-size: 12px;
   line-height: 30px;
 }

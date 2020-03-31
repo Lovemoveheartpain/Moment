@@ -1,8 +1,16 @@
 <template>
   <div>
-    <van-button round class="message_btn" type="info" v-show="isShow" @click="change">
-      <van-icon name="chat" />
-    </van-button>
+    <div
+      class="message_btn"
+      v-show="isShow"
+      @touchstart="down"
+      @touchmove.prevent="move"
+      @touchend="end"
+      @click="change"
+      :style="{bottom:position.y+'px', right:position.x+'px'}"
+    >
+      <van-icon name="chat" style="z-index: -1;" />
+    </div>
     <div v-show="!isShow" class="message_container">
       <div class="message_container_header">
         <div>
@@ -30,25 +38,83 @@
 
 <script>
 import { Toast } from "vant";
+// 鼠标位置和div的左上角位置 差值
+var dx, dy;
+
 export default {
   data() {
     return {
       isShow: true,
       phone: "",
-      text: ""
+      text: "",
+      flags: false,
+      position: {
+        x: 100,
+        y: 500
+      },
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height
     };
   },
   methods: {
+    // 实现移动端拖拽
+    down(event) {
+      this.flags = true;
+      var touch;
+      if (event.touches) {
+        touch = event.touches[0];
+      } else {
+        touch = event;
+      }
+      dx = touch.clientX - event.target.offsetLeft;
+      dy = touch.clientY - event.target.offsetTop;
+    },
+    move(event) {
+      if (this.flags) {
+        var touch;
+        if (event.touches) {
+          touch = event.touches[0];
+        } else {
+          touch = event;
+        }
+        this.position.x =
+          this.screenWidth - (touch.clientX - dx + event.target.offsetWidth);
+        this.position.y =
+          this.screenHeight - (touch.clientY - dy + event.target.offsetHeight);
+        // 限制滑块超出页面
+        if (this.position.x < 0) {
+          this.position.x = 0;
+        } else if (
+          this.position.x >
+          this.screenWidth - touch.target.clientWidth
+        ) {
+          this.position.x = this.screenWidth - touch.target.clientWidth;
+        }
+        if (this.position.y < 0) {
+          this.position.y = 0;
+        } else if (
+          this.position.y >
+          this.screenHeight - touch.target.clientHeight
+        ) {
+          this.position.y = this.screenHeight - touch.target.clientHeight;
+        }
+      }
+    },
+    //鼠标释放时候的函数
+    end() {
+      this.flags = false;
+    },
     change() {
       this.isShow = !this.isShow;
-      this.$emit('changeShow')
+      this.$emit("changeShow");
     },
     submit() {
       if (!this.phone) {
         Toast("请至少填写一项联系方式");
       }
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -59,9 +125,10 @@ export default {
   text-align: center;
   line-height: 60px;
   position: fixed;
-  bottom: 70px;
-  right: 15px;
-  z-index: 10;
+  border-radius: 50%;
+  z-index: 50;
+  background: #007aff;
+  color: white;
 }
 .message_btn > span {
   font-size: 25px;

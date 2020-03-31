@@ -49,8 +49,8 @@ export default {
       text: "",
       flags: false,
       position: {
-        x: 100,
-        y: 500
+        x: 15,
+        y: 80
       },
       screenWidth: window.screen.width,
       screenHeight: window.screen.height

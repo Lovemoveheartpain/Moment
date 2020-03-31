@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <div style="font-size:16px;">
-      <NavigationTopVue>
-        <span class="teal" slot="middle">特色课</span>
-        <van-icon class="search_icon" @click="toSearch" slot="right" name="search" />
-      </NavigationTopVue>
-      <CourseClassVue />
-      <van-list
-        class="course_list_container"
-        v-model="loading"
-        :finished="finished"
-        :offset="1"
-        finished-text="没有更多了"
-        @load="onLoad"
-      >
-        <ItemTwoVue :list="list" />
-      </van-list>
-    </div>
+  <div style="font-size:16px;">
+    <NavigationTopVue>
+      <span class="teal" slot="middle">特色课</span>
+      <van-icon class="search_icon" @click="toSearch" slot="right" name="search" />
+    </NavigationTopVue>
+    <CourseClassVue />
+    <van-list
+      class="course_list_container"
+      v-model="loading"
+      :finished="finished"
+      :offset="1"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+      <ItemTwoVue :list="list" />
+    </van-list>
   </div>
 </template>
 

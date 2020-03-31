@@ -26,7 +26,13 @@ const courseBasis = (value) => {
 const courseInfo = (value) => {
     return headquarter(init.path.GET, init.url.courseInfo, value)
 }
-
+const otoCourseOptions = (value) => {
+    return headquarter(init.path.GET, init.url.otoCourseOptions, value)
+}
+const otoCourse = (value) => {
+    console.log(12)
+    return headquarter(init.path.GET, init.url.otoCourse, value)
+}
 
 
 
@@ -36,5 +42,7 @@ export const bus = {
     appIndex,
     courseClassify,
     courseBasis,
-    courseInfo
+    courseInfo,
+    otoCourseOptions,
+    otoCourse
 }

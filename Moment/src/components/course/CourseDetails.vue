@@ -22,9 +22,11 @@
       </div>
       <div class="cd_cro">
         <p class="cd_title">教学团队</p>
-        <div class="teacher_item" v-for="(item,index) in list.teachers" :key="index">
-          <img class="teacher_img" :src="item.avatar" alt />
-          <p class="teacher_name">{{item.teacher_name}}</p>
+        <div class="teacher_list_box" >
+          <div class="teacher_item" v-for="(item,index) in list.teachers" :key="index">
+            <img class="teacher_img" :src="item.avatar" alt />
+            <p class="teacher_name">{{item.teacher_name}}</p>
+          </div>
         </div>
       </div>
       <div v-for="(item, index) in items" :key="index" class="cd_cro">
@@ -55,7 +57,7 @@
         </div>
       </div>
     </van-overlay>
-    <div class="bottom_btn">立即报名</div>
+    <div class="bottom_btn" @click="toLogin">立即报名</div>
   </div>
 </template>
 
@@ -113,6 +115,9 @@ export default {
       } else {
         this.isTop = true;
       }
+    },
+    toLogin() {
+      this.$router.push("/login");
     }
   },
   activated() {
@@ -239,7 +244,12 @@ export default {
   font-size: 12px;
   color: gray;
 }
-
+.teacher_list_box
+{
+  width: 100%;
+  /* background-color: red; */
+  display: inline-flex;
+}
 .teacher_item {
   width: 80px;
   text-align: center;

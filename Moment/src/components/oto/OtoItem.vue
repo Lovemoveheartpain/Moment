@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="oto_teacher_list" v-for="(item, index) in list" :key="index" @click="change">
+    <div
+      class="oto_teacher_list"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="change(item.teacher_id)"
+    >
       <img class="teacher_img" :src="item.avatar" alt />
       <div class="teacher_details">
         <p>
@@ -13,27 +18,17 @@
       </div>
       <div class="reserve_btn">预约</div>
     </div>
-    <ModalVue :isShow="isShow" @changeShow="change" />
   </div>
 </template>
 
 <script>
-import ModalVue from "../home/Modal.vue";
 export default {
   props: {
     list: Array
   },
-  components: {
-    ModalVue
-  },
-  data() {
-    return {
-      isShow: false
-    };
-  },
   methods: {
-    change() {
-      this.isShow = !this.isShow;
+    change(id) {
+      this.$router.push("/teacher?id=" + id);
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div style="font-size:16px;">
-    <NavigationTopVue>
+    <NavigationTopVue :background="'white'">
       <span class="teal" slot="middle">特色课</span>
       <van-icon class="search_icon" @click="toSearch" slot="right" name="search" />
     </NavigationTopVue>

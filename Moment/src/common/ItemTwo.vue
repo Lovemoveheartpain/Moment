@@ -3,13 +3,14 @@
     <div v-for="(item, index) in list" :key="index" class="ii_content" @click="toDetails(item)">
       <p class="title_content">{{item.title}}</p>
       <div class="total_periods">
-        <slot name="time"></slot>
+        {{item.start_play_date | fomartTime('MM月dd日 hh:mm')}}~
+        {{item.end_play_date | fomartTime('MM月dd日 hh:mm')}} |
         共{{item.total_periods}}课时
       </div>
       <div class="teacher_item">
-        <div>
-          <img :src="item.teachers_list[0].teacher_avatar" alt />
-          <span>{{item.teachers_list[0].teacher_name}}</span>
+        <div v-for="(list,index) in item.teachers_list" :key="index">
+          <img :src="list.teacher_avatar" alt />
+          <span>{{list.teacher_name}}</span>
         </div>
       </div>
       <p class="ii-info">

@@ -1,6 +1,6 @@
 <template>
   <div class="search_page">
-    <NavigationTopVue>
+    <NavigationTopVue :background="'white'">
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
       <van-search
         class="input"

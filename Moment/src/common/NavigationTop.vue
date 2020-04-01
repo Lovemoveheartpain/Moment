@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation_top">
+  <div class="navigation_top" :style="{backgroundColor:background}">
     <div class="common_nav_top navigation_left">
       <slot name="left"></slot>
     </div>
@@ -12,18 +12,22 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    background: String
+  }
+};
 </script>
 
 <style scoped>
 .navigation_top {
   width: 100%;
   height: 45px;
-  background-color: white;
+  /* background-color: white; */
   display: inline-flex;
   position: fixed;
   top: 0px;
-  z-index: 120;
+  z-index: 10;
 }
 .navigation_left {
   width: 10%;

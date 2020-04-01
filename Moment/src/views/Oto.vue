@@ -1,6 +1,6 @@
 <template>
   <div class="oto_conatainer">
-    <NavigationTopVue>
+    <NavigationTopVue :background="'white'">
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
       <span class="teal" slot="middle">一对一辅导</span>
       <van-icon class="search_icon" @click="toSearch" slot="right" name="search" />
@@ -17,7 +17,6 @@ import NavigationTopVue from "../common/NavigationTop.vue";
 import OtoClassVue from "../components/oto/OtoClass.vue";
 import OtoItemVue from "../components/oto/OtoItem.vue";
 import { bus } from "../network";
-bus;
 export default {
   components: {
     NavigationTopVue,

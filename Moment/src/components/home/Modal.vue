@@ -1,5 +1,5 @@
 <template>
-  <van-overlay :show="isShow">
+  <van-overlay z-index="11">
     <div class="wrapper">
       <div>
         <van-icon name="cross" class="icon_cross" @click="change" />
@@ -7,22 +7,19 @@
         <p class="text1">赶紧登录一下吧</p>
         <p class="text2">立即预约一对一辅导，浏览更多视频课程~</p>
       </div>
-      <van-button class="login_btn" @click="toLogin" round type="info">立即登录</van-button>
+      <van-button class="login_btn" block @click="toLogin" round type="info">立即登录</van-button>
     </div>
   </van-overlay>
 </template>
 
 <script>
 export default {
-  props: {
-    isShow: Boolean
-  },
   methods: {
     change() {
-      this.$emit("changeShow");
+      this.$store.commit("loginVerify", false);
     },
-    toLogin(){
-        this.$router.push('/login')
+    toLogin() {
+      this.$router.push("/login");
     }
   }
 };
@@ -59,10 +56,10 @@ export default {
 .text2 {
   color: gray;
   margin: 10px 0px;
+  font-size: 12px;
 }
 .login_btn {
   width: 240px;
-  display: block;
   margin: 0 auto;
   background: #eb6100;
   border: none;

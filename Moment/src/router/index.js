@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -69,6 +70,21 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/teacher',
+    name: 'teacher',
+    component: () => import('../views/Teacher.vue')
+  },
+  {
+    path: '/oto_plan',
+    name: 'oto_plan',
+    component: () => import('../views/Oto_plan.vue')
+  },
+  {
+    path: '/vip',
+    name: 'vip',
+    component: () => import('../views/Vip.vue')
   }
 ]
 
@@ -81,6 +97,27 @@ const router = new VueRouter({
       return savedPosition
     } else {
       return { x: 0, y: 0 }
+    }
+  }
+})
+
+
+router.beforeEach((to, from, next) => {
+  let flag = window.localStorage.getItem('user_id') && window.localStorage.getItem('adminToken');
+  if (flag) {
+    if (navigator.userAgent.indexOf("MSIE") > -1) {
+      alert('当前组件不兼容IE10以下浏览器')
+    } else {
+      next()
+    } //判断是否IE浏览器
+  } else {
+    if (to.path == '' || to.path == '/mine') {
+      next('/login')
+    } else if (to.path == '/calendar' || to.path == '/vip' || to.path == '/teacher') {
+      store.commit('loginVerify', true)
+    } else {
+      store.commit('loginVerify', false)
+      next()
     }
   }
 })

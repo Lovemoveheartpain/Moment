@@ -25,7 +25,6 @@ export default {
         .appIndex()
         .then(res => {
           this.initAppData = res.data.data;
-          console.log(this.initAppData);
         })
         .catch(err => {
           console.log(err);

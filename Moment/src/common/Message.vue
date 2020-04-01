@@ -4,12 +4,12 @@
       class="message_btn"
       v-show="isShow"
       @touchstart="down"
-      @touchmove.prevent="move"
+      @touchmove.prevent.capture="move"
       @touchend="end"
       @click="change"
       :style="{bottom:position.y+'px', right:position.x+'px'}"
     >
-      <van-icon name="chat" style="z-index: -1;" />
+      <van-icon name="chat" />
     </div>
     <div v-show="!isShow" class="message_container">
       <div class="message_container_header">
@@ -123,15 +123,17 @@ export default {
   width: 60px;
   height: 60px;
   text-align: center;
-  line-height: 60px;
   position: fixed;
   border-radius: 50%;
-  z-index: 50;
   background: #007aff;
   color: white;
+  z-index: 50;
 }
-.message_btn > span {
+.message_btn>i
+{
   font-size: 25px;
+  z-index: -1;
+  margin-top: 25%;
 }
 .message_container {
   width: 100%;

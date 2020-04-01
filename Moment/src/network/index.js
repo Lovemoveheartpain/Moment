@@ -8,9 +8,6 @@ function data(params) {//循环拼接参数
     val = val.substring(0, val.length - 1)
     return val
 }
-const login = () => {
-    return headquarter(init.path.POST, init.url.login, '')
-}
 const getBanner = () => {
     return headquarter(init.path.GET, init.url.getBanner, '')
 }
@@ -30,19 +27,37 @@ const otoCourseOptions = (value) => {
     return headquarter(init.path.GET, init.url.otoCourseOptions, value)
 }
 const otoCourse = (value) => {
-    console.log(12)
     return headquarter(init.path.GET, init.url.otoCourse, value)
+}
+const login = (value) => {
+    return headquarter(init.path.POST, init.url.login, data(value))
+}
+const getTeacher = (value) => {
+    return headquarter(init.path.GET, init.url.getTeacher, value)
+}
+const getTeacherInfo = (value) => {
+    return headquarter(init.path.GET, init.url.getTeacherInfo, value)
+}
+const invite = (value) => {
+    return headquarter(init.path.POST, init.url.invite, data(value))
+}
+const collect = (value) => {
+    return headquarter(init.path.GET, init.url.collect, value)
 }
 
 
 
 export const bus = {
-    login,
     getBanner,
     appIndex,
     courseClassify,
     courseBasis,
     courseInfo,
     otoCourseOptions,
-    otoCourse
+    otoCourse,
+    login,
+    getTeacher,
+    getTeacherInfo,
+    invite,
+    collect
 }

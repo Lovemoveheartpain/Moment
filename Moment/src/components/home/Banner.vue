@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { bus } from '../../network';
 export default {
   data() {
     return {
@@ -32,16 +31,6 @@ export default {
         }
       ]
     };
-  },
-  methods: {
-    getBanner(){
-      bus.getBanner().then((res)=>{
-        console.log(res)
-      })
-    }
-  },
-  mounted() {
-    this.getBanner()
   },
 };
 </script>

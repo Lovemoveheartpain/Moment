@@ -7,6 +7,11 @@ Vue.use(vant);
 import 'amfe-flexible/index'
 import 'vant/lib/index.css';
 
+import * as filters from './util/filter';
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 Vue.config.productionTip = false
 
 new Vue({

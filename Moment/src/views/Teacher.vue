@@ -1,16 +1,27 @@
 <template>
   <div class="teacher_container">
-    <header class="header_top" :background="'#60AFFA'">
-      <NavigationTopVue>
+    <header class="header_top">
+      <NavigationTopVue :background="'#60AFFA'">
         <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
         <span slot="middle" style="color:white">讲师详情</span>
       </NavigationTopVue>
     </header>
     <div class="teach_details_box">
-      <OtoTeacherVue :list="teacherList.teacher" />
+      <OtoTeacherVue :list="teacherList.teacher">
+        <div slot="right" class="right">
+          <div class="reserve_btn_right" v-show="!isStar" @click="star">关注</div>
+          <div class="reserve_btn_right" v-show="isStar" @click="star">已关注</div>
+        </div>
+      </OtoTeacherVue>
     </div>
     <div class="tab_container">
-      <van-tabs v-model="active" title-active-color="#EB6100" line-width="20px" color="#EB6100">
+      <van-tabs
+        v-model="active"
+        title-active-color="#EB6100"
+        line-width="20px"
+        color="#EB6100"
+        @click="onClick"
+      >
         <van-tab title="讲师介绍">
           <div class="tab_box">
             <div class="teacher_details_content">
@@ -26,7 +37,18 @@
           </div>
         </van-tab>
         <van-tab title="主讲课程">
-          <div class="tab_box"></div>
+          <div class="tab_box">
+            <van-list
+              class="course_list_container"
+              v-model="loading"
+              :finished="finished"
+              :offset="1"
+              finished-text="没有更多了"
+              @load="shua"
+            >
+              <ItemTwoVue :list="list" />
+            </van-list>
+          </div>
         </van-tab>
         <van-tab title="学员评价">
           <div class="tab_box">
@@ -46,21 +68,79 @@
 import { bus } from "../network";
 import NavigationTopVue from "../common/NavigationTop.vue";
 import OtoTeacherVue from "../components/oto/OtoTeacher.vue";
-
+import ItemTwoVue from "../common/ItemTwo.vue";
+import { Toast } from "vant";
 export default {
+  name: "teacher",
   components: {
     NavigationTopVue,
-    OtoTeacherVue
+    OtoTeacherVue,
+    ItemTwoVue
   },
   data() {
     return {
       id: this.$route.query.id,
       teacherList: { teacher: {}, flag: "" },
       teacherInfoList: { attr: [], intro: "" },
-      active: 0
+      active: 0,
+      page: 0,
+      limit: 10,
+      list: [],
+      total: 0,
+      loading: false,
+      finished: false,
+      isStar: false
     };
   },
   methods: {
+    onClick(name) {
+      console.log(this.list.length);
+      if (this.list.length == 0 && name == 1) {
+        this.shua();
+      }
+    },
+
+    star() {
+      this.isStar = !this.isStar;
+      if (this.isStar) {
+        Toast("关注成功 !");
+      } else {
+        Toast("已取消关注 !");
+      }
+    },
+
+    //     star() {
+    //       let id = this.$route.query.id;
+    //       console.log(id);
+    //       bus
+    //         .collect(id)
+    //         .then(res => {
+    //           console.log(res);
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    //     }
+    shua() {
+      this.page++;
+      bus
+        .mainCourse({
+          teacher_id: this.id,
+          page: this.page,
+          limit: this.limit
+        })
+        .then(res => {
+          this.list = [...this.list, ...res.data.data.list];
+          this.total = res.data.data.total;
+          this.loading = false;
+          if (this.list.length >= this.total) {
+            this.finished = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     toDetails() {
       this.$router.push("/oto_plan?id=" + this.id);
     },
@@ -72,7 +152,6 @@ export default {
         .getTeacher(this.id)
         .then(res => {
           if (res.data.code == 200) {
-            console.log(res.data.data);
             this.teacherList = res.data.data;
           }
         })
@@ -85,7 +164,6 @@ export default {
         .getTeacherInfo(this.id)
         .then(res => {
           if (res.data.code == 200) {
-            console.log(res.data.data);
             this.teacherInfoList = res.data.data;
           }
         })
@@ -94,7 +172,7 @@ export default {
         });
     }
   },
-  activated() {
+  mounted() {
     this.id = this.$route.query.id;
     this.getTeacher();
     this.getTeacherInfo();
@@ -171,5 +249,27 @@ export default {
   font-size: 12px;
   width: 80%;
   /* background: pink; */
+}
+.course_list_container {
+  width: 94%;
+  padding: 10px 3% 50px;
+  background: #f0f2f5;
+  font-size: 14px;
+}
+.right {
+  width: 25%;
+  /* background-color: red; */
+  display: inline-flex;
+  justify-content: center;
+}
+.reserve_btn_right {
+  background-color: #ebeefe;
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: orange;
+  border-radius: 15px;
+  font-size: 14px;
 }
 </style>

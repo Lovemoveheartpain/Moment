@@ -54,6 +54,7 @@ export default {
   width: 100%;
   height: 65px;
   /* background: red; */
+  overflow: hidden;
 }
 .teacher_item > div {
   width: 30%;

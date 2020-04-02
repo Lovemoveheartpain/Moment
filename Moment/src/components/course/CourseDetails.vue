@@ -1,6 +1,6 @@
 <template>
   <div class="course_details">
-    <NavigationTopVue>
+    <NavigationTopVue :background="'white'">
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
       <h3 v-show="isTop" slot="middle">课程详情</h3>
       <div v-show="!isTop" slot="middle" class="details_middle_container">
@@ -22,7 +22,7 @@
       </div>
       <div class="cd_cro">
         <p class="cd_title">教学团队</p>
-        <div class="teacher_list_box" >
+        <div class="teacher_list_box">
           <div class="teacher_item" v-for="(item,index) in list.teachers" :key="index">
             <img class="teacher_img" :src="item.avatar" alt />
             <p class="teacher_name">{{item.teacher_name}}</p>
@@ -244,10 +244,10 @@ export default {
   font-size: 12px;
   color: gray;
 }
-.teacher_list_box
-{
+.teacher_list_box {
   width: 100%;
   /* background-color: red; */
+  flex-wrap: wrap;
   display: inline-flex;
 }
 .teacher_item {

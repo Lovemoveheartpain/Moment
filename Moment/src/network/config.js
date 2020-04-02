@@ -15,7 +15,8 @@ const init = {
         getTeacher: '/api/app/teacher/',
         getTeacherInfo: '/api/app/teacher/info/',
         invite: '/api/app/teacher/invite',
-        collect: 'api/app/teacher/collect/'
+        collect: 'api/app/teacher/collect/',
+        mainCourse: '/api/app/teacher/mainCourse',
     }
 }
 

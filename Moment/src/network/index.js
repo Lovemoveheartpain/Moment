@@ -44,6 +44,9 @@ const invite = (value) => {
 const collect = (value) => {
     return headquarter(init.path.GET, init.url.collect, value)
 }
+const mainCourse = (value) => {
+    return headquarter(init.path.POST, init.url.mainCourse, data(value))
+}
 
 
 
@@ -59,5 +62,6 @@ export const bus = {
     getTeacher,
     getTeacherInfo,
     invite,
-    collect
+    collect,
+    mainCourse
 }

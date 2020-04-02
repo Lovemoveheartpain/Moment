@@ -4,7 +4,7 @@
       <span class="teal" slot="middle">特色课</span>
       <van-icon class="search_icon" @click="toSearch" slot="right" name="search" />
     </NavigationTopVue>
-    <CourseClassVue />
+    <CourseClassVue @type_one="change_one" @type_two="change_two" @type_three="change_three" />
     <van-list
       class="course_list_container"
       v-model="loading"
@@ -46,18 +46,40 @@ export default {
     NavigationTopVue,
     CourseClassVue,
     ItemTwoVue
-    // CourseListVue,
   },
   methods: {
-    toSearch() {
-      this.$router.push("/search");
+    change_one(index) {
+      this.form.page = 0;
+      this.form.attr_val_id = index;
+      this.list = [];
+      this.onLoad();
     },
-    onLoad() {
-      this.form.page++;
+    change_two(index) {
+      this.form.page = 0;
+      this.form.order_by = index;
+      this.list = [];
+      this.onLoad();
+    },
+    change_three(index) {
+      this.form.page = 0;
+      if (index == 0) {
+        this.form.course_type = index;
+      } else if (index >= 1 && index <= 4) {
+        this.form.course_type = index + 1;
+      } else if (index >= 5 && index <= 8) {
+        this.form.course_type = index + 2;
+      } else if (index == 9) {
+        this.form.course_type = 0;
+        this.form.is_vip = 1;
+      }
+      this.list = [];
+      this.onLoad();
+    },
+    getList() {
       setTimeout(() => {
         bus.courseBasis(this.form).then(res => {
           if (res.data.code == 200) {
-            // console.log(res.data.data);
+            console.log(res.data.data);
             this.list = [...this.list, ...res.data.data.list];
             this.total = res.data.data.total;
             this.loading = false;
@@ -67,6 +89,13 @@ export default {
           }
         });
       }, 1000);
+    },
+    toSearch() {
+      this.$router.push("/search");
+    },
+    onLoad() {
+      this.form.page++;
+      this.getList();
     }
   }
 };

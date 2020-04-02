@@ -1,6 +1,9 @@
 <template>
   <div class="oto_teacher_list">
-    <img class="teacher_img" :src="list.avatar" alt />
+    <div class="teacher_img_box" >
+
+      <img class="teacher_img" :src="list.avatar" alt />
+    </div>
     <div class="teacher_details">
       <p>
         <span>{{list.teacher_name}}</span>
@@ -11,46 +14,16 @@
         <span>{{list.teach_age}}年教龄</span>
       </p>
     </div>
-    <div class="reserve_btn" v-show="!isStar" @click="star">关注</div>
-    <div class="reserve_btn" v-show="isStar" @click="star">已关注</div>
+    <slot name="right"></slot>
   </div>
 </template>
 
 <script>
-// import { bus } from "../../network";
-import {Toast} from 'vant'
+
 export default {
   props: {
     list: Object
   },
-  data() {
-    return {
-      isStar: false
-    };
-  },
-  methods: {
-    star() {
-      this.isStar = !this.isStar;
-      if(this.isStar){
-          Toast('关注成功 !')
-      }else{
-          Toast('已取消关注 !')
-      }
-    }
-
-    //     star() {
-    //       let id = this.$route.query.id;
-    //       console.log(id);
-    //       bus
-    //         .collect(id)
-    //         .then(res => {
-    //           console.log(res);
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //         });
-    //     }
-  }
 };
 </script>
 
@@ -67,24 +40,21 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+.teacher_img_box
+{
+  width: 15%;
+  /* background-color: pink; */
+  display: inline-flex;
+  align-items: center;
+}
 .teacher_img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-.reserve_btn {
-  background-color: #ebeefe;
-  width: 60px;
-  height: 25px;
-  line-height: 25px;
-  text-align: center;
-  color: orange;
-  border-radius: 15px;
-  font-size: 14px;
-}
 .teacher_details {
   width: 60%;
-  /* background-color: pink; */
+  /* background-color: gray; */
 }
 .age_span {
   color: lightgray;

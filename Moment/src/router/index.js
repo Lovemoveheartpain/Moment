@@ -103,7 +103,9 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  let flag = window.localStorage.getItem('user_id') && window.localStorage.getItem('adminToken');
+  let id = window.localStorage.getItem('user_id');
+  let token = window.localStorage.getItem('adminToken');
+  let flag = token != null && id != null
   if (flag) {
     if (navigator.userAgent.indexOf("MSIE") > -1) {
       alert('当前组件不兼容IE10以下浏览器')

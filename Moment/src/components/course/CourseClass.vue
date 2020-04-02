@@ -1,41 +1,49 @@
 <template>
-  <div>
-    <div class="course_class_container">
-      <div
-        class="classify_div"
-        v-for="(item, index) in list"
-        :key="index"
-        @click="click(item,index)"
-        :class="item.status?'addClass':''"
-      >
-        {{item.name}}
-        <van-icon :name="item.status?'arrow-up':'arrow-down'" />
+  <van-dropdown-menu class="course_class_container" active-color="orange">
+    <van-dropdown-item title="分类" ref="item1">
+      <div class="class_details_box">
+        <div v-for="(item,index) in attrList" :key="index" class="attr_list_box">
+          <p class="title_text">{{item.name}}</p>
+          <div
+            class="type_list"
+            v-for="(list, index1) in item.child"
+            :key="index1"
+            :class="list.status?'addClass':''"
+            @click="select_one(item.child,index1)"
+          >
+            <div :style="{background:list.status?'#EBEEFE':''}">{{list.name}}</div>
+          </div>
+        </div>
+        <div class="btn_bottom_box">
+          <van-button type="default" @click="reset" class="btn_bottom">重置</van-button>
+          <van-button type="primary" @click="sure" class="btn_bottom" color="#EB6100">确定</van-button>
+        </div>
       </div>
-    </div>
-    <div class="select_container" v-show="select == 1">1</div>
-    <div class="select_container" v-show="select == 2">
+    </van-dropdown-item>
+    <van-dropdown-item title="排序" ref="item2">
       <div
         class="option_list"
         v-for="(item,index) in option"
         :key="index"
-        @click="select_one(item,option)"
+        @click="select_item('排序',option,index)"
       >
         <span :class="item.status?'addClass':''">{{item.text}}</span>
       </div>
-    </div>
-    <div class="select_container type_container" v-show="select == 3">
-      <div
-        class="type_list"
-        v-for="(item, index) in type"
-        :key="index"
-        :class="item.status?'addClass':''"
-        @click="select_one(item,type)"
-      >
-        <div>{{item.value}}</div>
+    </van-dropdown-item>
+    <van-dropdown-item title="筛选" ref="item3">
+      <div class="type_container">
+        <div
+          class="type_list"
+          v-for="(item, index) in type"
+          :key="index"
+          :class="item.status?'addClass':''"
+          @click="select_item('筛选',type,index)"
+        >
+          <div :style="{background:item.status?'#EBEEFE':''}">{{item.value}}</div>
+        </div>
       </div>
-    </div>
-    <van-overlay :show="flag" @click="flag = false;select = ''" />
-  </div>
+    </van-dropdown-item>
+  </van-dropdown-menu>
 </template>
 
 <script>
@@ -43,13 +51,6 @@ import { bus } from "../../network";
 export default {
   data() {
     return {
-      a: 5,
-      b: { height: "100px", transition: "all 2s" },
-      list: [
-        { name: "分类", status: false },
-        { name: "排序", status: false },
-        { name: "筛选", status: false }
-      ],
       type: [
         { value: "全部", status: true },
         { value: "大班课", status: false },
@@ -69,36 +70,70 @@ export default {
         { text: "价格从低到高", status: false },
         { text: "价格从高到低", status: false }
       ],
-      flag: false,
-      select: ""
+      attrList: [],
+      val: []
     };
   },
   methods: {
-    select_one(item, items) {
+    select_item(title, items, index) {
       items.forEach(element => {
         element.status = false;
       });
-      item.status = true;
-    },
-    click(item, index) {
-      if (item.status) {
-        this.flag = false;
-        this.select = "";
-        item.status = !item.status;
-      } else {
-        this.flag = true;
-        this.select = index + 1;
-        this.list.forEach(element => {
-          element.status = false;
-        });
-        item.status = !item.status;
+      items[index].status = true;
+      let type;
+      if (title == "排序") {
+        this.$refs.item2.toggle();
+        type = "type_two";
+      } else if (title == "筛选") {
+        this.$refs.item3.toggle();
+        type = "type_three";
       }
+      this.$emit(type, index);
+    },
+    select_one(item, index) {
+      item.forEach(element => {
+        element.status = false;
+      });
+      item[index].status = true;
+    },
+    reset() {
+      this.attrList.forEach(element => {
+        element.child.forEach(ele => {
+          ele.status = false;
+        });
+      });
+      this.val = [];
+      this.sure();
+    },
+    sure() {
+      this.attrList.forEach(element => {
+        element.child.forEach(ele => {
+          if (ele.status == true) {
+            let index = this.val.findIndex(item => item == ele.id);
+            if (index == -1) {
+              this.val.push(ele.id);
+            }
+          }
+        });
+      });
+      this.$refs.item1.toggle();
+      let value = this.val.toString();
+      this.$emit("type_one", value);
     }
   },
   mounted() {
     bus.courseClassify().then(res => {
       if (res.data.code == 200) {
-        console.log(res.data.data);
+        let arr = res.data.data.attrclassify;
+        arr.forEach(element => {
+          for (let index = 0; index < element.child.length; index++) {
+            element.child[index] = Object.assign(element.child[index], {
+              status: false
+            });
+          }
+        });
+        this.attrList = arr;
+        console.log(this.attrList);
       }
     });
   }
@@ -112,27 +147,27 @@ export default {
   position: fixed;
   top: 45px;
   background: white;
-  display: inline-flex;
-  align-items: center;
   font-size: 14px;
   z-index: 10;
-  font-size: 14px;
   border-top: 1px solid lightgray;
+}
+.class_details_box {
+  width: 94%;
+  padding: 3%;
 }
 .classify_div {
   width: 33%;
   text-align: center;
 }
+.attr_list_box {
+  border-bottom: 1px solid lightgray;
+  padding-top: 9px;
+}
+.title_text {
+  font-size: 12px;
+}
 .addClass {
   color: orange;
-}
-.select_container {
-  width: 100%;
-  background: white;
-  position: fixed;
-  top: 86px;
-  z-index: 10;
-  border-top: 1px solid lightgray;
 }
 .option_list {
   width: 100%;
@@ -145,8 +180,6 @@ export default {
 
 .type_container {
   padding: 10px 0px;
-  display: inline-flex;
-  flex-wrap: wrap;
 }
 .type_list {
   width: 25%;
@@ -160,5 +193,16 @@ export default {
   width: 80%;
   line-height: 30px;
   background-color: #f5f5f5;
+}
+.btn_bottom_box {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+.btn_bottom {
+  width: 40%;
+  height: 30px;
+  line-height: 30px;
 }
 </style>

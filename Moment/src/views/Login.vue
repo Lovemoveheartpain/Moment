@@ -39,6 +39,7 @@
 import { bus } from "../network";
 import { Toast } from "vant";
 export default {
+  name:'login',
   data() {
     return {
       flag1: false,

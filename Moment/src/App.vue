@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <keep-alive exclude="teacher,login,record">
       <router-view v-show="isShow" />
     </keep-alive>
     <router-view name="bar" />

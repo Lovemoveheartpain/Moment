@@ -1,7 +1,6 @@
 <template>
   <div class="oto_teacher_list">
     <div class="teacher_img_box" >
-
       <img class="teacher_img" :src="list.avatar" alt />
     </div>
     <div class="teacher_details">

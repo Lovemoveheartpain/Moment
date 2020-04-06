@@ -124,13 +124,18 @@ export default {
   mounted() {
     bus.courseClassify().then(res => {
       if (res.data.code == 200) {
+        console.log(res.data.data);
         let arr = res.data.data.attrclassify;
         arr.forEach(element => {
-          for (let index = 0; index < element.child.length; index++) {
-            element.child[index] = Object.assign(element.child[index], {
-              status: false
-            });
-          }
+          // for (let index = 0; index < element.child.length; index++) {
+          //   // element.child[index] = Object.assign(element.child[index], {
+          //   //   status: false
+          //   // });
+          //   element.child[index].status = false
+          // }
+          element.child.forEach(ele => {
+            ele.status = false;
+          });
         });
         this.attrList = arr;
         console.log(this.attrList);

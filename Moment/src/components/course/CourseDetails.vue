@@ -57,7 +57,7 @@
         </div>
       </div>
     </van-overlay>
-    <div class="bottom_btn" @click="toLogin">立即报名</div>
+    <div class="bottom_btn" @click="toNext()">立即报名</div>
   </div>
 </template>
 
@@ -79,7 +79,7 @@ export default {
       isShow: false,
       isTop: true,
       items: ["课程介绍", "课程大纲", "课程评价"],
-      star: false
+      star: false,
     };
   },
   methods: {
@@ -116,8 +116,8 @@ export default {
         this.isTop = true;
       }
     },
-    toLogin() {
-      this.$router.push("/login");
+    toNext() {
+      this.$router.push("/vip");
     }
   },
   activated() {

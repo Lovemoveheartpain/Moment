@@ -52,16 +52,16 @@ export default {
       this.form.page = 0;
       this.form.attr_val_id = index;
       this.list = [];
-      this.onLoad();
+      this.getList();
     },
     change_two(index) {
       this.form.page = 0;
       this.form.order_by = index;
       this.list = [];
-      this.onLoad();
+      this.getList();
     },
     change_three(index) {
-      this.form.page = 0;
+      this.form.is_vip = 0
       if (index == 0) {
         this.form.course_type = index;
       } else if (index >= 1 && index <= 4) {
@@ -72,14 +72,15 @@ export default {
         this.form.course_type = 0;
         this.form.is_vip = 1;
       }
+      this.form.page = 0;
       this.list = [];
-      this.onLoad();
+      this.getList();
     },
     getList() {
       setTimeout(() => {
         bus.courseBasis(this.form).then(res => {
           if (res.data.code == 200) {
-            console.log(res.data.data);
+            this.finished = false
             this.list = [...this.list, ...res.data.data.list];
             this.total = res.data.data.total;
             this.loading = false;

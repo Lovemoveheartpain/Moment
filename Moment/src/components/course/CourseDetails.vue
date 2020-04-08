@@ -12,9 +12,9 @@
       <div class="cd_cro_top">
         <p class="cd_top_title">{{list.info.title}}</p>
         <van-icon
-          :name="star?'star':'star-o'"
+          :name="list.info.is_collect == 1?'star':'star-o'"
           class="star_icon"
-          :color="star?'orange':''"
+          :color="list.info.is_collect == 1?'orange':''"
           @click="changestar"
         />
         <p class="cd_top_price">{{list.info.price == 0?"免费":'￥'+list.info.price}}</p>
@@ -79,7 +79,7 @@ export default {
       isShow: false,
       isTop: true,
       items: ["课程介绍", "课程大纲", "课程评价"],
-      star: false,
+      code: 1
     };
   },
   methods: {
@@ -87,12 +87,38 @@ export default {
       this.$router.go(-1);
     },
     changestar() {
-      this.star = !this.star;
-      if (this.star) {
-        Toast("收藏成功");
-      } else {
-        Toast("取消收藏");
+      console.log(this.list.info.is_collect);
+      if (this.list.info.is_collect == 0) {
+        bus
+          .collectKe({
+            course_basis_id: this.id,
+            type: 1
+          })
+          .then(res => {
+            // console.log(res.data);
+            if (res.data.code == 200) {
+              this.code = res.data.data;
+              Toast("收藏成功");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else if (this.list.info.is_collect == 1) {
+        bus
+          .cancel_collectKe(this.code)
+          .then(res => {
+            // console.log(res.data);
+            if (res.data.code == 200) {
+              this.code = res.data.data;
+              Toast("已取消收藏");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
+      this.getDetails();
     },
     getDetails() {
       this.id = this.$route.params.id;
@@ -101,7 +127,7 @@ export default {
         .then(res => {
           if (res.data.msg == "操作成功") {
             this.list = res.data.data;
-            // console.log(res.data.data);
+            console.log(res.data.data);
           }
         })
         .catch(err => {

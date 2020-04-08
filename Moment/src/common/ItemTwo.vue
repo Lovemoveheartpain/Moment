@@ -27,11 +27,6 @@ export default {
   props: {
     list: Array
   },
-  mounted() {
-    // this.list.forEach(element => {
-    //   console.log(element);
-    // });
-  },
   methods: {
     toDetails(item) {
       this.$router.push("/course_details/" + item.id);

@@ -2,6 +2,7 @@ const init = {
     path: {
         GET: 'GET',
         POST: 'POST',
+        PUT: 'PUT',
     },
     url: {
         login: '/api/app/login',
@@ -17,6 +18,8 @@ const init = {
         invite: '/api/app/teacher/invite',
         collect: 'api/app/teacher/collect/',
         mainCourse: '/api/app/teacher/mainCourse',
+        collectKe: '/api/app/collect',
+        cancel_collectKe: '/api/app/collect/cancel/',
     }
 }
 

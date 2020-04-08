@@ -9,8 +9,10 @@
     <div class="teach_details_box">
       <OtoTeacherVue :list="teacherList.teacher">
         <div slot="right" class="right">
-          <div class="reserve_btn_right" v-show="!isStar" @click="star">关注</div>
-          <div class="reserve_btn_right" v-show="isStar" @click="star">已关注</div>
+          <div
+            :class="teacherList.flag == 1?'reserve_btn_right1':'reserve_btn_right2'"
+            @click="star"
+          >{{teacherList.flag == 1?'关注':"已关注"}}</div>
         </div>
       </OtoTeacherVue>
     </div>
@@ -89,38 +91,33 @@ export default {
       total: 0,
       loading: false,
       finished: false,
-      isStar: false
     };
   },
   methods: {
     onClick(name) {
-      console.log(this.list.length);
       if (this.list.length == 0 && name == 1) {
         this.shua();
       }
     },
-
     star() {
-      this.isStar = !this.isStar;
-      if (this.isStar) {
-        Toast("关注成功 !");
-      } else {
-        Toast("已取消关注 !");
-      }
+      let id = this.$route.query.id;
+      bus
+        .collect(id)
+        .then(res => {
+          console.log(res.data.data);
+          if (res.data.code == 200) {
+            if (res.data.data.flag == 2) {
+              Toast("关注成功 !");
+            } else if (res.data.data.flag == 1) {
+              Toast("已取消关注 !");
+            }
+            this.getTeacher();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-
-    //     star() {
-    //       let id = this.$route.query.id;
-    //       console.log(id);
-    //       bus
-    //         .collect(id)
-    //         .then(res => {
-    //           console.log(res);
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //         });
-    //     }
     shua() {
       this.page++;
       bus
@@ -153,6 +150,7 @@ export default {
         .then(res => {
           if (res.data.code == 200) {
             this.teacherList = res.data.data;
+            console.log(this.teacherList);
           }
         })
         .catch(err => {
@@ -262,13 +260,23 @@ export default {
   display: inline-flex;
   justify-content: center;
 }
-.reserve_btn_right {
+.reserve_btn_right1 {
   background-color: #ebeefe;
   width: 60px;
   height: 25px;
   line-height: 25px;
   text-align: center;
   color: orange;
+  border-radius: 15px;
+  font-size: 14px;
+}
+.reserve_btn_right2 {
+  background-color: #ebeefe;
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: gray;
   border-radius: 15px;
   font-size: 14px;
 }

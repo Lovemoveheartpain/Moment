@@ -56,6 +56,24 @@ const cancel_collectKe = (value) => {
 const getUCenterInfo = () => {
     return headquarter(init.path.GET, init.url.getUCenterInfo, '')
 }
+const coinRank = () => {
+    return headquarter(init.path.GET, init.url.coinRank, '')
+}
+const pay = (value) => {
+    return headquarter(init.path.POST, init.url.pay, data(value))
+}
+const feedback = (value) => {
+    return headquarter(init.path.POST, init.url.feedback, data(value))
+}
+const userInfo = () => {
+    return headquarter(init.path.GET, init.url.userInfo, '')
+}
+const grade = () => {
+    return headquarter(init.path.GET, init.url.grade, '')
+}
+const downOrder = (value) => {
+    return headquarter(init.path.POST, init.url.downOrder, data(value))
+}
 
 
 
@@ -75,5 +93,11 @@ export const bus = {
     mainCourse,
     collectKe,
     cancel_collectKe,
-    getUCenterInfo
+    getUCenterInfo,
+    coinRank,
+    pay,
+    feedback,
+    userInfo,
+    grade,
+    downOrder
 }

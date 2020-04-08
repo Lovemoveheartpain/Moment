@@ -1,5 +1,5 @@
 // 导入自己需要的组件
-import { Button, Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Lazyload, Toast, Overlay, Search, List, Tab, Tabs, Calendar, DropdownMenu, DropdownItem } from 'vant'
+import { Button, Tabbar, TabbarItem, Icon, Swipe, SwipeItem, Lazyload, Toast, Overlay, Search, List, Tab, Dialog, Tabs, Calendar, DropdownMenu, DropdownItem, ActionSheet, Field } from 'vant'
 const vant = {
     install: function (Vue) {
         Vue.
@@ -18,7 +18,10 @@ const vant = {
             use(Tabs).
             use(Calendar).
             use(DropdownMenu).
-            use(DropdownItem)
+            use(DropdownItem).
+            use(ActionSheet).
+            use(Field).
+            use(Dialog)
     }
 }
 export default vant

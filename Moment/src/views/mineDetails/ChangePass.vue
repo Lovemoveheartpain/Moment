@@ -2,7 +2,7 @@
   <div>
     <NavigationTopVue :background="'white'">
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
-      <span class="teal" slot="middle">{{order_type == 1?'约课订单':order_type == 2?'课程订单':'会员订单'}}</span>
+      <span class="teal" slot="middle">设置密码</span>
     </NavigationTopVue>
   </div>
 </template>
@@ -13,11 +13,6 @@ import NavigationTopVue from "../../common/NavigationTop.vue";
 export default {
   components: {
     NavigationTopVue
-  },
-  computed: {
-    order_type() {
-      return this.$route.query.order_type;
-    }
   },
   methods: {
     fan() {

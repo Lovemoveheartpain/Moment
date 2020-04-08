@@ -21,6 +21,12 @@ const init = {
         collectKe: '/api/app/collect',
         cancel_collectKe: '/api/app/collect/cancel/',
         getUCenterInfo: '/api/app/getUCenterInfo?',
+        coinRank: '/api/app/coin/coinRank?',
+        pay: '/api/app/pay',
+        feedback: '/api/app/feedback',
+        userInfo: '/api/app/userInfo?',
+        grade: '/api/app/vip/grade?',
+        downOrder: '/api/app/order/downOrder',
     }
 }
 

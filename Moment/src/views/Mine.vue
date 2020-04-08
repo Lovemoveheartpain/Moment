@@ -3,7 +3,6 @@
     <MineHeaderVue />
     <MineShareVue />
     <MineListVue />
-    <van-button @click="remove" type="primary">退出登录</van-button>
   </div>
 </template>
 
@@ -17,13 +16,6 @@ export default {
     MineShareVue,
     MineListVue
   },
-  methods: {
-    remove() {
-      window.localStorage.removeItem("user_id");
-      window.localStorage.removeItem("adminToken");
-      this.$router.push("/index");
-    }
-  }
 };
 </script>
 

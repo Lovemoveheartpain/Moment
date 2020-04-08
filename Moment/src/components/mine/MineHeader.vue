@@ -1,7 +1,7 @@
 <template>
   <div class="mine_header_container">
     <div class="mine_message_box">
-      <div class="mine_message_box_top">
+      <div class="mine_message_box_top" @click="toPath('/info')">
         <div style="position: relative;">
           <img class="info_icon" :src="info.avatar" alt />
           <img class="crown_icon" src="../../assets/img/皇冠-2 拷贝@2x.png" alt />

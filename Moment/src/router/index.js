@@ -148,6 +148,11 @@ const routes = [
     path: '/my_currency',
     name: 'my_currency',
     component: () => import('../views/mineDetails/Currency.vue')
+  },
+  {
+    path: '/changePass',
+    name: 'changePass',
+    component: () => import('../views/mineDetails/ChangePass.vue')
   }
 ]
 

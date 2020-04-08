@@ -90,7 +90,7 @@ export default {
       list: [],
       total: 0,
       loading: false,
-      finished: false,
+      finished: false
     };
   },
   methods: {

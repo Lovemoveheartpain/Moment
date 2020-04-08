@@ -17,7 +17,7 @@
           :color="list.info.is_collect == 1?'orange':''"
           @click="changestar"
         />
-        <p class="cd_top_price">{{list.info.price == 0?"免费":'￥'+list.info.price}}</p>
+        <p class="cd_top_price">{{list.info.price == 0?"免费":list.info.price | toFixPrice(2)}}</p>
         <p class="cd_top_bottom">共{{list.info.total_periods}}课时 | {{list.info.sales_num}}人已报名</p>
       </div>
       <div class="cd_cro">

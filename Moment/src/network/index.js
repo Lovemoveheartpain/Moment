@@ -53,6 +53,9 @@ const collectKe = (value) => {
 const cancel_collectKe = (value) => {
     return headquarter(init.path.PUT, init.url.cancel_collectKe, value + '/1')
 }
+const getUCenterInfo = () => {
+    return headquarter(init.path.GET, init.url.getUCenterInfo, '')
+}
 
 
 
@@ -71,5 +74,6 @@ export const bus = {
     collect,
     mainCourse,
     collectKe,
-    cancel_collectKe
+    cancel_collectKe,
+    getUCenterInfo
 }

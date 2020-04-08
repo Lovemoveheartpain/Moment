@@ -1,12 +1,22 @@
 <template>
-  <div>
-    我的
-    <van-button class="btn" @click="remove" type="primary" size="large">退出登录</van-button>
+  <div class="mine_container">
+    <MineHeaderVue />
+    <MineShareVue />
+    <MineListVue />
+    <van-button @click="remove" type="primary">退出登录</van-button>
   </div>
 </template>
 
 <script>
+import MineHeaderVue from "../components/mine/MineHeader.vue";
+import MineShareVue from "../components/mine/MineShare.vue";
+import MineListVue from "../components/mine/MineList.vue";
 export default {
+  components: {
+    MineHeaderVue,
+    MineShareVue,
+    MineListVue
+  },
   methods: {
     remove() {
       window.localStorage.removeItem("user_id");
@@ -18,9 +28,10 @@ export default {
 </script>
 
 <style scoped>
-.btn {
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
+.mine_container {
+  background-color: white;
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 80px;
 }
 </style>

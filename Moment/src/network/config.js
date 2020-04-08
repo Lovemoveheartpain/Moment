@@ -20,6 +20,7 @@ const init = {
         mainCourse: '/api/app/teacher/mainCourse',
         collectKe: '/api/app/collect',
         cancel_collectKe: '/api/app/collect/cancel/',
+        getUCenterInfo: '/api/app/getUCenterInfo?',
     }
 }
 

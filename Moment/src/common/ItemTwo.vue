@@ -16,7 +16,7 @@
       <p class="ii-info">
         <span class="person">{{item.sales_num}}人已报名</span>
         <span class="free" v-if="item.price == 0">免费</span>
-        <span class="price" v-else>￥{{item.price}}</span>
+        <span class="price" v-else>￥{{item.price | toFixPrice(2)}}</span>
       </p>
     </div>
   </div>

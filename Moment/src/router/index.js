@@ -49,7 +49,10 @@ const routes = [
   {
     path: '/mine',
     name: 'mine',
-    component: () => import('../views/Mine.vue')
+    components: {
+      default: () => import('../views/Mine.vue'),
+      bar: () => import('../common/NavigationBar.vue')
+    }
   },
   {
     path: '/search',
@@ -85,6 +88,66 @@ const routes = [
     path: '/vip',
     name: 'vip',
     component: () => import('../views/Vip.vue')
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/mineDetails/Order.vue')
+  },
+  {
+    path: '/collect',
+    name: 'collect',
+    component: () => import('../views/mineDetails/Collect.vue')
+  },
+  {
+    path: '/concern',
+    name: 'concern',
+    component: () => import('../views/mineDetails/Concern.vue')
+  },
+  {
+    path: '/coupon',
+    name: 'coupon',
+    component: () => import('../views/mineDetails/Coupon.vue')
+  },
+  {
+    path: '/card',
+    name: 'card',
+    component: () => import('../views/mineDetails/Card.vue')
+  },
+  {
+    path: '/toPathVip',
+    name: 'toPathVip',
+    component: () => import('../views/mineDetails/PathVip.vue')
+  },
+  {
+    path: '/message',
+    name: 'message',
+    component: () => import('../views/mineDetails/Message.vue')
+  },
+  {
+    path: '/feedback',
+    name: 'feedback',
+    component: () => import('../views/mineDetails/Feedback.vue')
+  },
+  {
+    path: '/options',
+    name: 'options',
+    component: () => import('../views/mineDetails/Options.vue')
+  },
+  {
+    path: '/info',
+    name: 'info',
+    component: () => import('../views/mineDetails/Info.vue')
+  },
+  {
+    path: '/my_study',
+    name: 'my_study',
+    component: () => import('../views/mineDetails/Study.vue')
+  },
+  {
+    path: '/my_currency',
+    name: 'my_currency',
+    component: () => import('../views/mineDetails/Currency.vue')
   }
 ]
 

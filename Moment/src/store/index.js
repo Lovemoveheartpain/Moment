@@ -6,11 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    flag: false
+    flag: false,
+    isShow: false
   },
   mutations: {
     loginVerify(state, data) {
       state.flag = data;
+    },
+    changeShow(state, data) {
+      state.isShow = data;
     }
   },
   actions: {

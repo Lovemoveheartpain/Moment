@@ -1,35 +1,31 @@
 <template>
   <div id="app">
     <keep-alive exclude="teacher,login,record">
-      <router-view v-show="isShow" />
+      <router-view v-show="!isShow" />
     </keep-alive>
     <router-view name="bar" />
-    <MessageVue @changeShow="change" />
+    <MessageVue />
     <ModalVue v-show="flag" />
+    <ServiceVue v-show="isShow" />
   </div>
 </template>
 <script>
 import MessageVue from "./common/Message.vue";
 import ModalVue from "./components/home/Modal.vue";
+import ServiceVue from "./common/Service.vue";
 
 export default {
   components: {
     MessageVue,
-    ModalVue
+    ModalVue,
+    ServiceVue
   },
   computed: {
     flag() {
       return this.$store.state.flag;
-    }
-  },
-  data() {
-    return {
-      isShow: true
-    };
-  },
-  methods: {
-    change() {
-      this.isShow = !this.isShow;
+    },
+    isShow() {
+      return this.$store.state.isShow;
     }
   }
 };

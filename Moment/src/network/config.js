@@ -27,6 +27,9 @@ const init = {
         userInfo: '/api/app/userInfo?',
         grade: '/api/app/vip/grade?',
         downOrder: '/api/app/order/downOrder',
+        collectTeacher: '/api/app/collect?',
+        attribute: '/api/app/module/attribute/1?',
+        user: '/api/app/user',
     }
 }
 

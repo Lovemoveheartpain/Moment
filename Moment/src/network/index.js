@@ -74,7 +74,19 @@ const grade = () => {
 const downOrder = (value) => {
     return headquarter(init.path.POST, init.url.downOrder, data(value))
 }
+const collectTeacher = (value) => {
+    return headquarter(init.path.GET, init.url.collectTeacher, data(value))
+}
 
+const cancel_collectTeacher = (value) => {
+    return headquarter(init.path.PUT, init.url.cancel_collectKe, value + '/2')
+}
+const attribute = () => {
+    return headquarter(init.path.GET, init.url.attribute, '')
+}
+const user = (value) => {
+    return headquarter(init.path.PUT, init.url.user, data(value))
+}
 
 
 export const bus = {
@@ -99,5 +111,9 @@ export const bus = {
     feedback,
     userInfo,
     grade,
-    downOrder
+    downOrder,
+    collectTeacher,
+    cancel_collectTeacher,
+    attribute,
+    user
 }

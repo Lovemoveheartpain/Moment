@@ -31,6 +31,9 @@ export default {
     toDetails(item) {
       this.$router.push("/course_details/" + item.id);
     }
+  },
+  mounted(){
+    console.log(this.list)
   }
 };
 </script>

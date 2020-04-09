@@ -10,9 +10,9 @@
       <OtoTeacherVue :list="teacherList.teacher">
         <div slot="right" class="right">
           <div
-            :class="teacherList.flag == 1?'reserve_btn_right1':'reserve_btn_right2'"
+            :class="teacherList.flag == 2?'reserve_btn_right1':'reserve_btn_right2'"
             @click="star"
-          >{{teacherList.flag == 1?'关注':"已关注"}}</div>
+          >{{teacherList.flag == 2?'关注':"已关注"}}</div>
         </div>
       </OtoTeacherVue>
     </div>
@@ -106,9 +106,9 @@ export default {
         .then(res => {
           console.log(res.data.data);
           if (res.data.code == 200) {
-            if (res.data.data.flag == 2) {
+            if (res.data.data.flag == 1) {
               Toast("关注成功 !");
-            } else if (res.data.data.flag == 1) {
+            } else if (res.data.data.flag == 2) {
               Toast("已取消关注 !");
             }
             this.getTeacher();

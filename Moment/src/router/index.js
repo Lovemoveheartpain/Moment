@@ -153,6 +153,11 @@ const routes = [
     path: '/changePass',
     name: 'changePass',
     component: () => import('../views/mineDetails/ChangePass.vue')
+  },
+  {
+    path: '/set-info',
+    name: 'set-info',
+    component: () => import('../views/mineDetails/SetInfo.vue')
   }
 ]
 

@@ -54,10 +54,9 @@
         </van-tab>
         <van-tab title="学员评价">
           <div class="tab_box">
-            <div class="discuss_container">
-              <img class="empty_img" src="https://wap.365msmk.com/img/empty.0d284c2e.png" alt />
-              <p class="empty_text">暂无评论</p>
-            </div>
+            <emptyVue>
+              <span slot="msg">暂无评论</span>
+            </emptyVue>
           </div>
         </van-tab>
       </van-tabs>
@@ -72,12 +71,14 @@ import NavigationTopVue from "../common/NavigationTop.vue";
 import OtoTeacherVue from "../components/oto/OtoTeacher.vue";
 import ItemTwoVue from "../common/ItemTwo.vue";
 import { Toast } from "vant";
+import emptyVue from "../common/empty.vue";
 export default {
   name: "teacher",
   components: {
     NavigationTopVue,
     OtoTeacherVue,
-    ItemTwoVue
+    ItemTwoVue,
+    emptyVue
   },
   data() {
     return {
@@ -209,20 +210,6 @@ export default {
   width: 100%;
   background-color: white;
   border-top: 1px solid lightgray;
-}
-.empty_img {
-  width: 150px;
-  height: 150px;
-}
-
-.discuss_container {
-  text-align: center;
-  padding: 10px 0;
-}
-.empty_text {
-  font-size: 16px;
-  color: lightgray;
-  margin-top: 15px;
 }
 .tab_container {
   position: absolute;

@@ -12,6 +12,9 @@
           <div class="watch_details" @click="change">查看详情</div>
         </div>
       </OtoTeacherVue>
+      <emptyVue>
+        <span slot="msg">暂无信息</span>
+      </emptyVue>
     </div>
   </div>
 </template>
@@ -20,10 +23,12 @@
 import { bus } from "../network";
 import NavigationTopVue from "../common/NavigationTop.vue";
 import OtoTeacherVue from "../components/oto/OtoTeacher.vue";
+import emptyVue from "../common/empty.vue";
 export default {
   components: {
     NavigationTopVue,
-    OtoTeacherVue
+    OtoTeacherVue,
+    emptyVue
   },
   data() {
     return {

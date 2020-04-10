@@ -25,10 +25,9 @@
     >
       <ItemTwoVue :list="list" />
     </van-list>
-    <div class="discuss_container" v-show="isShow">
-      <img class="empty_img" src="https://wap.365msmk.com/img/empty.0d284c2e.png" alt />
-      <p class="empty_text">暂无搜索结果</p>
-    </div>
+    <emptyVue v-show="isShow">
+      <span slot="msg">暂无搜索结果</span>
+    </emptyVue>
   </div>
 </template>
 
@@ -37,11 +36,13 @@ import NavigationTopVue from "../common/NavigationTop.vue";
 import SearchHistoryVue from "../components/search/SearchHistory.vue";
 import { bus } from "../network";
 import ItemTwoVue from "../common/ItemTwo.vue";
+import emptyVue from "../common/empty.vue";
 export default {
   components: {
     NavigationTopVue,
     SearchHistoryVue,
-    ItemTwoVue
+    ItemTwoVue,
+    emptyVue
   },
   data() {
     return {
@@ -115,20 +116,6 @@ export default {
 .right_span {
   color: gray;
   font-size: 14px;
-}
-.empty_img {
-  width: 150px;
-  height: 150px;
-}
-
-.discuss_container {
-  text-align: center;
-  padding-top: 70px;
-}
-.empty_text {
-  font-size: 16px;
-  color: lightgray;
-  margin-top: 15px;
 }
 .search_list_container {
   width: 94%;

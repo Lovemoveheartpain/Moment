@@ -30,6 +30,8 @@ const init = {
         collectTeacher: '/api/app/collect?',
         attribute: '/api/app/module/attribute/1?',
         user: '/api/app/user',
+        img: '/api/app/public/img',
+        sonArea: '/api/app/sonArea/',
     }
 }
 

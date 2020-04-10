@@ -69,7 +69,7 @@ export default {
       bus
         .getUCenterInfo()
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.info = res.data.data;
         })
         .catch(err => {

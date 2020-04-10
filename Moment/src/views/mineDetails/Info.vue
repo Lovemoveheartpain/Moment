@@ -5,7 +5,7 @@
       <span class="teal" slot="middle">个人信息</span>
     </NavigationTopVue>
     <ul class="info_ul">
-      <li>
+      <li @click="changeInfo(0)">
         <span>头像</span>
         <div>
           <img class="info_myicon" :src="user.avatar" alt />
@@ -33,14 +33,14 @@
           <van-icon class="fan_icon" name="arrow" />
         </div>
       </li>
-      <li>
+      <li @click="changeInfo(4)">
         <span>出生日期</span>
         <div>
           <span>{{user.birthday}}</span>
           <van-icon class="fan_icon" name="arrow" />
         </div>
       </li>
-      <li>
+      <li @click="changeInfo(5)">
         <span>所在城市</span>
         <div>
           <span>{{user.province_name+','+user.city_name+","+user.district_name}}</span>
@@ -62,12 +62,35 @@
         </div>
       </li>-->
     </ul>
+    <van-popup v-model="isShow" position="bottom">
+      <div v-show="num == 0">
+        <div class="content" @click="selectTou(0)">拍照</div>
+        <div class="content" @click="selectTou(1)">
+          <van-uploader id="upload" :after-read="after">从手机相册选择</van-uploader>
+        </div>
+        <div class="content" @click="isShow = false">取消</div>
+      </div>
+      <div v-show="num == 4">
+        <van-datetime-picker
+          v-model="currentDate"
+          @confirm="sureTime"
+          @cancel="cancel"
+          type="date"
+          :min-date="minDate"
+          :max-date="maxDate"
+        />
+      </div>
+      <div v-show="num == 5">
+        <van-area :area-list="areaList" @change="changeCity" @confirm="sureCity" @cancel="cancel" />
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import NavigationTopVue from "../../common/NavigationTop.vue";
 import { bus } from "../../network";
+import { Toast } from "vant";
 
 export default {
   components: {
@@ -75,23 +98,150 @@ export default {
   },
   data() {
     return {
-      user: {
-        attr: [{ attr_value: "" }, { attr_value: "" }]
+      user: {},
+      bute: [],
+      isShow: false,
+      num: 0,
+      minDate: new Date(1970, 0, 1),
+      maxDate: new Date(),
+      currentDate: new Date(),
+      areaList: {
+        province_list: {},
+        city_list: {},
+        county_list: {}
       },
-      bute: []
+      cityId: 0
     };
   },
   methods: {
+    after(file) {
+      var formdata = new FormData();
+      formdata.append("file", file.file);
+      bus
+        .img(formdata)
+        .then(res => {
+          if (res.data.code == 200) {
+            let path = res.data.data.path;
+            bus
+              .user({ avatar: path })
+              .then(res => {
+                if (res.data.code == 200) {
+                  this.user_info();
+                  this.cancel();
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    sureTime(value) {
+      let d = new Date(value);
+      let val = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+      this.putInfo({ birthday: val });
+      this.cancel();
+    },
+    putInfo(val) {
+      bus
+        .user(val)
+        .then(res => {
+          console.log(res.data);
+          if (res.data.code == 200) {
+            this.user_info();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    cancel() {
+      this.isShow = false;
+    },
+    sureCity(item) {
+      let val = {
+        province_id: item[0].code,
+        city_id: item[1].code,
+        district_id: item[2].code
+      };
+      this.putInfo(val);
+      this.cancel();
+    },
+    changeCity(val, list, sum) {
+      this.cityId = list[sum].code;
+      this.getCity(sum + 1);
+    },
+    getCity(type) {
+      bus
+        .sonArea(this.cityId)
+        .then(res => {
+          if (res.data.code == 200) {
+            let arr = res.data.data;
+            let obj = {};
+            for (let i = 0; i < arr.length; i++) {
+              const element = arr[i];
+              // console.log(element);
+              obj[element.id] = element.area_name;
+            }
+            switch (type) {
+              case 0:
+                this.areaList.province_list = obj;
+                break;
+              case 1:
+                this.areaList.city_list = obj;
+                break;
+              case 2:
+                this.areaList.county_list = obj;
+                break;
+              default:
+                break;
+            }
+            console.log(obj);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    changeInfo(num) {
+      this.isShow = true;
+      this.num = num;
+      if (num == 5) {
+        this.getCity(0);
+      }
+    },
+    selectTou(item) {
+      switch (item) {
+        case 0:
+          Toast("设备不支持");
+          this.isShow = false;
+          break;
+        case 1:
+          break;
+
+        default:
+          break;
+      }
+    },
     fan() {
-      this.$router.go(-1);
+      this.$router.push('/mine');
     },
     toPath(tag, val) {
       if (tag == "subjects") {
+        let arr = [];
+        this.user.attr.forEach(element => {
+          arr.push("check" + element.attr_val_id);
+        });
         this.$router.push(
-          `/set-info?tag=${tag}&value=${JSON.stringify(this.bute.value)}`
+          `/set-info?tag=${tag}&value=${JSON.stringify(
+            this.bute.value
+          )}&select=${JSON.stringify(arr)}`
         );
       } else {
-        this.$router.push(`/set-info?tag=${tag}&value=${val}`);
+        this.$router.push(`/set-info?tag=${tag}&value=${JSON.stringify(val)}`);
       }
     },
     user_info() {
@@ -99,7 +249,7 @@ export default {
         .userInfo()
         .then(res => {
           if (res.data.code == 200) {
-            console.log(res.data.data);
+            // console.log(res.data.data);
             this.user = res.data.data;
           }
         })
@@ -112,7 +262,7 @@ export default {
         .attribute()
         .then(res => {
           if (res.data.code == 200) {
-            console.log(res.data.data);
+            // console.log(res.data.data);
             this.bute = res.data.data[1];
             console.log(this.bute);
           }
@@ -144,10 +294,14 @@ export default {
 }
 
 .info_container {
-  padding-top: 70px;
+  padding-top: 55px;
   font-size: 14px;
 }
-
+.content {
+  width: 100%;
+  line-height: 45px;
+  text-align: center;
+}
 .info_ul {
   background-color: white;
   padding: 3%;

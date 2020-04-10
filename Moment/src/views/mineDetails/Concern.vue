@@ -34,10 +34,9 @@
         </div>
       </div>
     </van-list>
-    <div class="discuss_container" v-show="isShow" >
-      <img class="empty_img" src="https://wap.365msmk.com/img/empty.0d284c2e.png" alt />
-      <p class="empty_text">暂无关注</p>
-    </div>
+    <emptyVue v-show="isShow">
+      <span slot="msg" >暂无关注</span>
+    </emptyVue>
   </div>
 </template>
 
@@ -45,11 +44,14 @@
 import NavigationTopVue from "../../common/NavigationTop.vue";
 import { bus } from "../../network";
 import { Toast } from "vant";
+import emptyVue from '../../common/empty.vue';
+
 
 export default {
   name: "concern",
   components: {
-    NavigationTopVue
+    NavigationTopVue,
+    emptyVue
   },
   data() {
     return {
@@ -192,18 +194,5 @@ export default {
   font-size: 12px;
   color: orangered;
   background-color: #fdefe5;
-}
-.discuss_container {
-  margin-top: 100px;
-  text-align: center;
-}
-.empty_text {
-  font-size: 16px;
-  color: lightgray;
-  margin-top: 15px;
-}
-.empty_img {
-  width: 150px;
-  height: 150px;
 }
 </style>

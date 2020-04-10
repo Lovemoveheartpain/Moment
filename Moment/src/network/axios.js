@@ -33,9 +33,10 @@ function get(url, params) {
     })
 }
 
+
 function post(url, params) {
     return new Promise((resolve, reject) => {
-        Axios.post(url + params).then((res) => {
+        Axios.post(url,params).then((res) => {
             resolve(res)
         }).catch((err) => {
             reject(err)

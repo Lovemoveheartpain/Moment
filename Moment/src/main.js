@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vant from './vant/index';
+import plugins from './util/plugins'
 Vue.use(vant);
+Vue.prototype.$pub = plugins;
 import 'amfe-flexible/index'
 import 'vant/lib/index.css';
 

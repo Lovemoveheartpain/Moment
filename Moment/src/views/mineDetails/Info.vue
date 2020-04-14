@@ -27,7 +27,7 @@
         </div>
       </li>
       <li @click="toPath('sex',user.sex)">
-        <span>性别</span>
+        <span>性别 {{cityId}}</span>
         <div>
           <span>{{user.sex==0?'男':'女'}}</span>
           <van-icon class="fan_icon" name="arrow" />
@@ -47,7 +47,7 @@
           <van-icon class="fan_icon" name="arrow" />
         </div>
       </li>
-      <li @click="toPath('subjects')">
+      <li @click="toPath('subjects')" ref="kk">
         <span>学科</span>
         <div>
           <span v-for="(item, index) in user.attr" :key="index">{{item.attr_value}}</span>
@@ -81,7 +81,14 @@
         />
       </div>
       <div v-show="num == 5">
-        <van-area :area-list="areaList" @change="changeCity" @confirm="sureCity" @cancel="cancel" />
+        <van-area
+          ref="address"
+          :value="cityId"
+          :area-list="areaList"
+          @change="changeCity"
+          @confirm="sureCity"
+          @cancel="cancel"
+        />
       </div>
     </van-popup>
   </div>
@@ -110,7 +117,7 @@ export default {
         city_list: {},
         county_list: {}
       },
-      cityId: 0
+      cityId: "0"
     };
   },
   methods: {
@@ -159,6 +166,7 @@ export default {
         });
     },
     cancel() {
+      console.log(11);
       this.isShow = false;
     },
     sureCity(item) {
@@ -171,6 +179,7 @@ export default {
       this.cancel();
     },
     changeCity(val, list, sum) {
+      console.log(12);
       this.cityId = list[sum].code;
       this.getCity(sum + 1);
     },
@@ -183,15 +192,18 @@ export default {
             let obj = {};
             for (let i = 0; i < arr.length; i++) {
               const element = arr[i];
-              // console.log(element);
               obj[element.id] = element.area_name;
             }
             switch (type) {
               case 0:
                 this.areaList.province_list = obj;
+                this.cityId = Object.keys(this.areaList.province_list)[0];
+                this.getCity(1);
                 break;
               case 1:
                 this.areaList.city_list = obj;
+                this.cityId = Object.keys(this.areaList.city_list)[0];
+                this.getCity(2);
                 break;
               case 2:
                 this.areaList.county_list = obj;
@@ -200,6 +212,7 @@ export default {
                 break;
             }
             console.log(obj);
+            console.log(this.$refs.address)
           }
         })
         .catch(err => {
@@ -209,9 +222,6 @@ export default {
     changeInfo(num) {
       this.isShow = true;
       this.num = num;
-      if (num == 5) {
-        this.getCity(0);
-      }
     },
     selectTou(item) {
       switch (item) {
@@ -227,7 +237,7 @@ export default {
       }
     },
     fan() {
-      this.$router.push('/mine');
+      this.$router.push("/mine");
     },
     toPath(tag, val) {
       if (tag == "subjects") {
@@ -244,6 +254,9 @@ export default {
         this.$router.push(`/set-info?tag=${tag}&value=${JSON.stringify(val)}`);
       }
     },
+    city(){
+
+    },
     user_info() {
       bus
         .userInfo()
@@ -251,6 +264,7 @@ export default {
           if (res.data.code == 200) {
             // console.log(res.data.data);
             this.user = res.data.data;
+            this.getCity(0)
           }
         })
         .catch(err => {
@@ -271,10 +285,6 @@ export default {
           console.log(err);
         });
     }
-  },
-  mounted() {
-    this.user_info();
-    this.attribute();
   },
   activated() {
     this.user_info();

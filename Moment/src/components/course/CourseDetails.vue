@@ -17,7 +17,8 @@
           :color="list.info.is_collect == 1?'orange':''"
           @click="changestar"
         />
-        <p class="cd_top_price">{{list.info.price == 0?"免费":list.info.price | toFixPrice(2)}}</p>
+        <p v-if="list.info.price == 0" class="cd_top_price">免费</p>
+        <p v-else class="cd_top_price">{{list.info.price | toFixPrice(2)}}</p>
         <p class="cd_top_bottom">共{{list.info.total_periods}}课时 | {{list.info.sales_num}}人已报名</p>
       </div>
       <div class="cd_cro">
@@ -57,7 +58,7 @@
         </div>
       </div>
     </van-overlay>
-    <div class="bottom_btn" @click="toNext()">立即报名</div>
+    <div class="bottom_btn" @click="downOrder">立即报名</div>
   </div>
 </template>
 
@@ -127,7 +128,7 @@ export default {
         .then(res => {
           if (res.data.msg == "操作成功") {
             this.list = res.data.data;
-            console.log(res.data.data);
+            // console.log(res.data.data);
           }
         })
         .catch(err => {
@@ -142,8 +143,23 @@ export default {
         this.isTop = true;
       }
     },
-    toNext() {
-      this.$router.push("/vip");
+    downOrder() {
+      bus
+        .downOrder({ shop_id: this.id, type: 2 })
+        .then(res => {
+          // console.log(res.data);
+          if (res.data.code == 200) {
+            // console.log(res.data.data);
+            if (res.data.data.type == 1) {
+              Toast(res.data.data.msg);
+            }
+          } else if (res.data.code == 201) {
+            Toast(res.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   activated() {

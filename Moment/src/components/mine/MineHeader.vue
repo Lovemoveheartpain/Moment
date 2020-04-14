@@ -69,8 +69,11 @@ export default {
       bus
         .getUCenterInfo()
         .then(res => {
-          // console.log(res.data);
+          // console.log(res.data.data);
           this.info = res.data.data;
+          this.user_list[0].num = this.info.courses;
+          this.user_list[1].num = this.info.oto;
+          this.user_list[2].num = this.info.integral;
         })
         .catch(err => {
           console.log(err);

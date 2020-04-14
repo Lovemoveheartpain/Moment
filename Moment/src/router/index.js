@@ -158,6 +158,11 @@ const routes = [
     path: '/set-info',
     name: 'set-info',
     component: () => import('../views/mineDetails/SetInfo.vue')
+  },
+  {
+    path: '/study-detail',
+    name: 'study-detail',
+    component: () => import('../views/mineDetails/StudyDetails.vue')
   }
 ]
 

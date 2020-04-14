@@ -94,6 +94,15 @@ const img = (value) => {
 const sonArea = (value) => {
     return headquarter(init.path.GET, init.url.sonArea, value)
 }
+const myStudy = (value) => {
+    return headquarter(init.path.GET, init.url.myStudy, value)
+}
+const myStudyCourse = (value) => {
+    return headquarter(init.path.GET, init.url.myStudyCourse, value)
+}
+const deleteStudyCourse = (value) => {
+    return headquarter(init.path.DELETE, init.url.myStudyCourse, value)
+}
 
 
 export const bus = {
@@ -124,5 +133,8 @@ export const bus = {
     attribute,
     user,
     img,
-    sonArea
+    sonArea,
+    myStudy,
+    myStudyCourse,
+    deleteStudyCourse
 }

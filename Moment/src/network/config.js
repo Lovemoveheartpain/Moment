@@ -3,6 +3,7 @@ const init = {
         GET: 'GET',
         POST: 'POST',
         PUT: 'PUT',
+        DELETE: 'DELETE',
     },
     url: {
         login: '/api/app/login',
@@ -31,7 +32,9 @@ const init = {
         attribute: '/api/app/module/attribute/1?',
         user: '/api/app/user',
         img: '/api/app/public/img',
-        sonArea: '/api/app/sonArea/',
+        sonArea: '/api/app/sonArCea/',
+        myStudy: '/api/app/myStudy/',
+        myStudyCourse: 'api/app/myStudy/course/',
     }
 }
 

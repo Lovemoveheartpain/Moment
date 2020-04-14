@@ -36,7 +36,7 @@ function get(url, params) {
 
 function post(url, params) {
     return new Promise((resolve, reject) => {
-        Axios.post(url,params).then((res) => {
+        Axios.post(url, params).then((res) => {
             resolve(res)
         }).catch((err) => {
             reject(err)
@@ -54,6 +54,16 @@ function put(url, params) {
     })
 }
 
+function remove(url, params) {
+    return new Promise((resolve, reject) => {
+        Axios.delete(url + params).then((res) => {
+            resolve(res)
+        }).catch((err) => {
+            reject(err)
+        })
+    })
+}
+
 
 
 export function headquarter(mode, url, params) {
@@ -63,5 +73,7 @@ export function headquarter(mode, url, params) {
         return post(url, params)
     } else if (mode == 'PUT') {
         return put(url, params)
+    } else if (mode == 'DELETE') {
+        return remove(url, params)
     }
 }

@@ -32,6 +32,19 @@
       <span style="float: right;">注册/验证码登录</span>
     </div>
     <van-button round class="login_btn" block type="default" @click="login">登录</van-button>
+    <div class="otherLogin" v-if="showOther">
+      <p>第三方登录</p>
+      <div class="other_login_container">
+        <div class="wxLogin" @click="qqLogin(1)">
+          <img class="other_login_icon" src="../assets/img/wechat.png" />
+          <span>微信登录</span>
+        </div>
+        <div class="qqLogin" @click="qqLogin(2)">
+          <img class="other_login_icon" src="../assets/img/QQ.png" alt />
+          <span>QQ登录</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +52,7 @@
 import { bus } from "../network";
 import { Toast } from "vant";
 export default {
-  name:'login',
+  name: "login",
   data() {
     return {
       flag1: false,
@@ -48,7 +61,8 @@ export default {
         mobile: "19937723787",
         password: "",
         type: 1
-      }
+      },
+      showOther: true
     };
   },
   methods: {
@@ -76,6 +90,13 @@ export default {
           });
       } else {
         Toast("手机号码格式不正确 !");
+      }
+    },
+    qqLogin(type) {
+      if (type === 1) {
+        this.$pub.thirdpartLogin("wx");
+      } else {
+        this.$pub.thirdpartLogin("qq");
       }
     }
   }
@@ -124,5 +145,34 @@ export default {
   padding: 20px;
   color: gray;
   font-size: 12px;
+}
+
+.otherLogin {
+  width: 100%;
+}
+.other_login_container {
+  width: 100%;
+  display: inline-flex;
+  margin-top: 30px;
+}
+.wxLogin {
+  border-right: 1px solid #f1f1f1;
+}
+
+.other_login_icon {
+  width: 30px;
+  margin-right: 20px;
+}
+.wxLogin,
+.qqLogin {
+  width: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otherLogin > p {
+  color: lightgray;
+  text-align: center;
 }
 </style>

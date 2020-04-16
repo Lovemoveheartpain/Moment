@@ -1,5 +1,5 @@
 <template>
-  <div class="set_info_container" id="aaa">
+  <div class="set_info_container">
     <NavigationTopVue :background="'white'">
       <van-icon class="fan_icon" slot="left" name="arrow-left" @click="fan" />
       <span class="teal" slot="middle">修改个人信息</span>

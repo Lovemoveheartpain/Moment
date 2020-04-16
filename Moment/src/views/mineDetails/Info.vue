@@ -27,7 +27,7 @@
         </div>
       </li>
       <li @click="toPath('sex',user.sex)">
-        <span>性别 {{cityId}}</span>
+        <span>性别</span>
         <div>
           <span>{{user.sex==0?'男':'女'}}</span>
           <van-icon class="fan_icon" name="arrow" />
@@ -83,7 +83,7 @@
       <div v-show="num == 5">
         <van-area
           ref="address"
-          :value="cityId"
+          :value="code"
           :area-list="areaList"
           @change="changeCity"
           @confirm="sureCity"
@@ -117,7 +117,12 @@ export default {
         city_list: {},
         county_list: {}
       },
-      cityId: "0"
+      savecodeList: {
+        savecode: "",
+        citycode: "",
+        province: ""
+      },
+      code: ""
     };
   },
   methods: {
@@ -150,7 +155,6 @@ export default {
       let d = new Date(value);
       let val = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
       this.putInfo({ birthday: val });
-      this.cancel();
     },
     putInfo(val) {
       bus
@@ -159,6 +163,9 @@ export default {
           console.log(res.data);
           if (res.data.code == 200) {
             this.user_info();
+            this.cancel();
+          } else if (res.data.code == 201) {
+            Toast.fail(res.data.msg);
           }
         })
         .catch(err => {
@@ -166,53 +173,46 @@ export default {
         });
     },
     cancel() {
-      console.log(11);
       this.isShow = false;
     },
     sureCity(item) {
       let val = {
         province_id: item[0].code,
-        city_id: item[1].code,
-        district_id: item[2].code
+        city_id: item[1] ? item[1].code : "",
+        district_id: item[2] ? item[2].code : ""
       };
       this.putInfo(val);
-      this.cancel();
     },
-    changeCity(val, list, sum) {
-      console.log(12);
-      this.cityId = list[sum].code;
-      this.getCity(sum + 1);
+    changeCity(val, list, num) {
+      console.log(list)
+      let cityId = list[num].code;
+      this.getCity(num + 1, cityId);
     },
-    getCity(type) {
+    getCity(key, cityId) {
       bus
-        .sonArea(this.cityId)
+        .sonArea(cityId)
         .then(res => {
-          if (res.data.code == 200) {
-            let arr = res.data.data;
-            let obj = {};
-            for (let i = 0; i < arr.length; i++) {
-              const element = arr[i];
-              obj[element.id] = element.area_name;
-            }
-            switch (type) {
-              case 0:
-                this.areaList.province_list = obj;
-                this.cityId = Object.keys(this.areaList.province_list)[0];
-                this.getCity(1);
-                break;
-              case 1:
-                this.areaList.city_list = obj;
-                this.cityId = Object.keys(this.areaList.city_list)[0];
-                this.getCity(2);
-                break;
-              case 2:
-                this.areaList.county_list = obj;
-                break;
-              default:
-                break;
-            }
-            console.log(obj);
-            console.log(this.$refs.address)
+          let data = res.data.data;
+          let obj = {};
+          res.data.data.forEach(ele => {
+            obj[ele.id] = ele.area_name;
+          });
+          switch (key) {
+            case 0:
+              this.areaList.province_list = obj;
+              this.getCity(key + 1, data[0].id);
+              break;
+            case 1:
+              this.areaList.city_list = obj;
+              this.savecodeList.province = cityId;
+              this.getCity(key + 1, data[0].id.toString());
+              break;
+            case 2:
+              this.areaList.county_list = obj;
+              this.savecodeList.citycode = cityId;
+              this.savecodeList.savecode = data[0].id.toString();
+              this.code = this.savecodeList.savecode;
+              break;
           }
         })
         .catch(err => {
@@ -222,6 +222,46 @@ export default {
     changeInfo(num) {
       this.isShow = true;
       this.num = num;
+      if (this.num == 5) {
+        this.getCityInfo(0, 0);
+      }
+    },
+    getCityInfo(key, num) {
+      bus
+        .sonArea(num)
+        .then(res => {
+          // console.log(res.data.data);
+          let obj = {};
+          res.data.data.forEach(ele => {
+            obj[ele.id] = ele.area_name;
+          });
+          let code = "";
+          switch (key) {
+            case 0:
+              this.areaList.province_list = obj;
+              code = this.savecodeList.province
+                ? this.savecodeList.province
+                : this.user.province_id;
+              this.getCityInfo(key + 1, code);
+              break;
+            case 1:
+              this.areaList.city_list = obj;
+              code = this.savecodeList.citycode
+                ? this.savecodeList.citycode
+                : this.user.city_id;
+              this.getCityInfo(key + 1, code);
+              break;
+            case 2:
+              this.areaList.county_list = obj;
+              this.code = this.savecodeList.savecode
+                ? this.savecodeList.savecode
+                : this.user.district_id.toString();
+              break;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     selectTou(item) {
       switch (item) {
@@ -254,9 +294,6 @@ export default {
         this.$router.push(`/set-info?tag=${tag}&value=${JSON.stringify(val)}`);
       }
     },
-    city(){
-
-    },
     user_info() {
       bus
         .userInfo()
@@ -264,7 +301,6 @@ export default {
           if (res.data.code == 200) {
             // console.log(res.data.data);
             this.user = res.data.data;
-            this.getCity(0)
           }
         })
         .catch(err => {

@@ -32,7 +32,7 @@ const init = {
         attribute: '/api/app/module/attribute/1?',
         user: '/api/app/user',
         img: '/api/app/public/img',
-        sonArea: '/api/app/sonArCea/',
+        sonArea: '/api/app/sonArea/',
         myStudy: '/api/app/myStudy/',
         myStudyCourse: 'api/app/myStudy/course/',
     }

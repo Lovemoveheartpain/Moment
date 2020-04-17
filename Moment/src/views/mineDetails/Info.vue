@@ -314,7 +314,7 @@ export default {
           if (res.data.code == 200) {
             // console.log(res.data.data);
             this.bute = res.data.data[1];
-            console.log(this.bute);
+            // console.log(this.bute);
           }
         })
         .catch(err => {

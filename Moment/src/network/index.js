@@ -103,6 +103,12 @@ const myStudyCourse = (value) => {
 const deleteStudyCourse = (value) => {
     return headquarter(init.path.DELETE, init.url.myStudyCourse, value)
 }
+const smsCode = (value) => {
+    return headquarter(init.path.POST, init.url.smsCode, value)
+}
+const change_password = (value) => {
+    return headquarter(init.path.POST, init.url.change_password, value)
+}
 
 
 export const bus = {
@@ -136,5 +142,7 @@ export const bus = {
     sonArea,
     myStudy,
     myStudyCourse,
-    deleteStudyCourse
+    deleteStudyCourse,
+    smsCode,
+    change_password,
 }

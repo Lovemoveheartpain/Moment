@@ -127,7 +127,7 @@ export default {
   min-height: 100vh;
   background-color: white;
 }
-.my_study_container>div {
+.my_study_container > div {
   padding-top: 46px;
 }
 .study_wai_box {

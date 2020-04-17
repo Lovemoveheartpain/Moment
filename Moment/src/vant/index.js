@@ -25,6 +25,7 @@ import {
     Area,
     Checkbox,
     CheckboxGroup,
+    CountDown,
 } from 'vant'
 const vant = {
     install: function (Vue) {
@@ -54,6 +55,7 @@ const vant = {
             .use(Area)
             .use(Checkbox)
             .use(CheckboxGroup)
+            .use(CountDown)
     }
 }
 export default vant

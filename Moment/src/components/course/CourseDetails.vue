@@ -147,9 +147,9 @@ export default {
       bus
         .downOrder({ shop_id: this.id, type: 2 })
         .then(res => {
-          // console.log(res.data);
+          console.log(res.data);
           if (res.data.code == 200) {
-            // console.log(res.data.data);
+            console.log(res.data.data);
             if (res.data.data.type == 1) {
               Toast(res.data.data.msg);
             }

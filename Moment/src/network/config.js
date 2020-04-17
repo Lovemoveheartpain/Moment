@@ -34,7 +34,9 @@ const init = {
         img: '/api/app/public/img',
         sonArea: '/api/app/sonArea/',
         myStudy: '/api/app/myStudy/',
-        myStudyCourse: 'api/app/myStudy/course/',
+        myStudyCourse: '/api/app/myStudy/course/',
+        smsCode: '/api/app/smsCode',
+        change_password: '/api/app/password',
     }
 }
 
